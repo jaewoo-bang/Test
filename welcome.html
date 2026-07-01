@@ -1,0 +1,256 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영진전문대학교 - 가입을 환영합니다!</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- CSS Stylesheet -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 웰컴 페이지 전용 프리미엄 추가 스타일 */
+    .welcome-card {
+      text-align: center;
+      animation: slide-up-welcome 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes slide-up-welcome {
+      0% {
+        opacity: 0;
+        transform: translateY(40px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .welcome-badge {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 100px;
+      height: 100px;
+      background: radial-gradient(circle, rgba(99, 102, 241, 0.2) 0%, rgba(6, 182, 212, 0.1) 100%);
+      border: 2px dashed var(--secondary-light);
+      border-radius: 50%;
+      margin: 0 auto 25px;
+      position: relative;
+    }
+
+    .welcome-badge i {
+      font-size: 3rem;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: float-icon 3s infinite ease-in-out;
+    }
+
+    @keyframes float-icon {
+      0%, 100% { transform: translateY(0) rotate(0deg); }
+      50% { transform: translateY(-8px) rotate(10deg); }
+    }
+
+    .welcome-heading {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: linear-gradient(135deg, #ffffff 0%, #cbd5e1 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      margin-bottom: 12px;
+    }
+
+    .welcome-desc {
+      color: var(--text-muted);
+      font-size: 0.95rem;
+      line-height: 1.6;
+      margin-bottom: 30px;
+    }
+
+    .user-info-panel {
+      background: rgba(15, 23, 42, 0.4);
+      border: 1px solid rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      margin-bottom: 35px;
+      text-align: left;
+    }
+
+    .user-info-title {
+      font-size: 0.95rem;
+      font-weight: 700;
+      color: var(--secondary-light);
+      margin-bottom: 15px;
+      border-left: 3px solid var(--secondary-light);
+      padding-left: 8px;
+    }
+
+    .info-row {
+      display: flex;
+      justify-content: space-between;
+      padding: 10px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      font-size: 0.9rem;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-label {
+      color: var(--text-muted);
+    }
+
+    .info-value {
+      color: #ffffff;
+      font-weight: 600;
+    }
+
+    .action-buttons {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .btn-secondary-action {
+      width: 100%;
+      padding: 14px;
+      background: rgba(255, 255, 255, 0.05);
+      border: 1px solid rgba(255, 255, 255, 0.1);
+      border-radius: var(--radius-md);
+      color: var(--text-main);
+      font-size: 0.95rem;
+      font-weight: 600;
+      text-decoration: none;
+      display: inline-block;
+      transition: var(--transition-fast);
+    }
+
+    .btn-secondary-action:hover {
+      background: rgba(255, 255, 255, 0.1);
+      border-color: rgba(255, 255, 255, 0.2);
+      transform: translateY(-2px);
+    }
+
+    .confetti {
+      position: absolute;
+      width: 8px;
+      height: 8px;
+      background-color: var(--secondary);
+      opacity: 0;
+      border-radius: 50%;
+      animation: fall 3s infinite linear;
+    }
+
+    @keyframes fall {
+      0% {
+        top: -10%;
+        opacity: 1;
+        transform: translateX(0) rotate(0deg);
+      }
+      100% {
+        top: 100%;
+        opacity: 0;
+        transform: translateX(100px) rotate(360deg);
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 배경 애니메이션 -->
+  <div class="background-decorations">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+  </div>
+
+  <div class="container">
+    <main class="signup-card welcome-card">
+      
+      <!-- 상단 디자인 뱃지 -->
+      <div class="welcome-badge">
+        <i class="fa-solid fa-graduation-cap"></i>
+      </div>
+
+      <!-- 타이틀 및 설명 -->
+      <h1 class="welcome-heading">회원가입 완료!</h1>
+      <p class="welcome-desc">영진전문대학교의 다양한 스마트 학사 서비스와 학생 맞춤형 커뮤니티 서비스를 이제 모두 이용하실 수 있습니다.</p>
+
+      <!-- 사용자 정보 표시 영역 -->
+      <section class="user-info-panel">
+        <h2 class="user-info-title">가입 정보 확인</h2>
+        <div class="info-row">
+          <span class="info-label">아이디</span>
+          <span class="info-value" id="display-username">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">이메일</span>
+          <span class="info-value" id="display-email">-</span>
+        </div>
+        <div class="info-row">
+          <span class="info-label">전화번호</span>
+          <span class="info-value" id="display-phone">-</span>
+        </div>
+      </section>
+
+      <!-- 액션 버튼 -->
+      <div class="action-buttons">
+        <a href="index.html" class="btn-submit" style="text-decoration: none;">
+          <span>로그인 페이지로 이동</span>
+          <i class="fa-solid fa-right-to-bracket btn-icon"></i>
+        </a>
+        <a href="https://www.yju.ac.kr" target="_blank" rel="noopener noreferrer" class="btn-secondary-action">
+          <span>영진전문대 홈페이지 가기</span>
+        </a>
+      </div>
+
+    </main>
+  </div>
+
+  <!-- 파라미터 파싱 스크립트 -->
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // URL에서 쿼리 파라미터 파싱
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username') || '알 수 없음';
+      const email = urlParams.get('email') || '등록되지 않음';
+      const phone = urlParams.get('phone') || '등록되지 않음';
+
+      // HTML 요소 업데이트 (XSS 방지를 위해 textContent 사용)
+      document.getElementById('display-username').textContent = username;
+      document.getElementById('display-email').textContent = email;
+      document.getElementById('display-phone').textContent = phone;
+
+      // 꽃가루(Confetti) 이펙트 동적 생성
+      const container = document.body;
+      const colors = ['#4F46E5', '#06B6D4', '#ef4444', '#f59e0b', '#10b981', '#ec4899'];
+      
+      for (let i = 0; i < 40; i++) {
+        const confetti = document.createElement('div');
+        confetti.className = 'confetti';
+        
+        // 무작위 스타일 부여
+        confetti.style.left = Math.random() * 100 + 'vw';
+        confetti.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+        confetti.style.width = Math.random() * 10 + 5 + 'px';
+        confetti.style.height = confetti.style.width;
+        confetti.style.animationDuration = Math.random() * 2 + 2 + 's';
+        confetti.style.animationDelay = Math.random() * 3 + 's';
+        
+        // 무작위 퍼짐 효과
+        if (Math.random() > 0.5) {
+          confetti.style.borderRadius = '0'; // 사각형 꽃가루
+        }
+        
+        container.appendChild(confetti);
+      }
+    });
+  </script>
+</body>
+</html>
