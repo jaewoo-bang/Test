@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영진전문대학교 - 통합 로그인</title>
+  <!-- SEO 메타 태그 -->
+  <meta name="description" content="영진전문대학교 스마트 학사 통합 로그인 서비스입니다.">
+  <meta name="keywords" content="영진전문대, 로그인, 영진전문대학교, 대학서비스">
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <!-- Custom Stylesheet -->
+  <link rel="icon" href="data:,">
+  <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+  <!-- 배경 애니메이션 요소 -->
+  <div class="background-decorations">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+  </div>
+
+  <div class="container">
+    <!-- 로그인 카드 -->
+    <main class="signup-card">
+      
+      <!-- 카드 헤더 (브랜드 로고 영역) -->
+      <header class="card-header">
+        <div class="brand-logo">
+          <!-- 영진전문대학교의 상징적 SVG -->
+          <svg viewBox="0 0 100 100" class="logo-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4F46E5" />
+                <stop offset="100%" stop-color="#06B6D4" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-dasharray="200 40" />
+            <path d="M30 35 L50 65 L70 35" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M50 20 L50 50" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" />
+          </svg>
+        </div>
+        <h1 class="brand-title">YEUNGJIN</h1>
+        <p class="brand-subtitle">영진전문대학교 학생 통합 로그인</p>
+      </header>
+
+      <!-- 로그인 폼 -->
+      <form id="loginForm" class="signup-form" novalidate>
+        
+        <!-- 아이디 필드 -->
+        <div class="input-group" id="group-username">
+          <label for="username">
+            <span class="label-text">아이디</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="fa-regular fa-user input-icon"></i>
+            <input 
+              type="text" 
+              id="username" 
+              name="username" 
+              placeholder="아이디를 입력해 주세요" 
+              autocomplete="username" 
+              required
+            >
+            <i class="fa-solid fa-circle-check status-icon success-icon"></i>
+            <i class="fa-solid fa-circle-exclamation status-icon error-icon"></i>
+          </div>
+          <p class="validation-message" id="error-username" role="alert"></p>
+        </div>
+
+        <!-- 비밀번호 필드 -->
+        <div class="input-group" id="group-password">
+          <label for="password">
+            <span class="label-text">비밀번호</span>
+          </label>
+          <div class="input-wrapper">
+            <i class="fa-solid fa-lock input-icon"></i>
+            <input 
+              type="password" 
+              id="password" 
+              name="password" 
+              placeholder="비밀번호를 입력해 주세요" 
+              autocomplete="current-password" 
+              required
+            >
+            <button type="button" class="btn-toggle-password" tabindex="-1" aria-label="비밀번호 표시">
+              <i class="fa-regular fa-eye eye-close-icon"></i>
+              <i class="fa-regular fa-eye-slash eye-open-icon"></i>
+            </button>
+            <i class="fa-solid fa-circle-check status-icon success-icon"></i>
+            <i class="fa-solid fa-circle-exclamation status-icon error-icon"></i>
+          </div>
+          <p class="validation-message" id="error-password" role="alert"></p>
+        </div>
+
+        <!-- 로그인 상태 유지 및 아이디 저장 체크박스 -->
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-top: 5px;">
+          <div class="terms-group" style="margin-top: 0;">
+            <label class="checkbox-container">
+              <input type="checkbox" id="saveId">
+              <span class="checkmark"></span>
+              <span class="terms-text" style="color: var(--text-muted);">아이디 저장</span>
+            </label>
+          </div>
+          <div class="terms-group" style="margin-top: 0;">
+            <label class="checkbox-container">
+              <input type="checkbox" id="keepLogin">
+              <span class="checkmark"></span>
+              <span class="terms-text" style="color: var(--text-muted);">로그인 상태 유지</span>
+            </label>
+          </div>
+        </div>
+
+        <!-- 로그인 버튼 -->
+        <button type="submit" id="submitBtn" class="btn-submit">
+          <span class="btn-text">로그인</span>
+          <i class="fa-solid fa-right-to-bracket btn-icon"></i>
+        </button>
+
+      </form>
+      
+      <!-- 카드 푸터 -->
+      <footer class="card-footer">
+        <p>아직 계정이 없으신가요? <a href="index.html" class="login-link">회원가입 바로가기</a></p>
+      </footer>
+
+    </main>
+  </div>
+
+  <!-- 로그인 성공 모달 -->
+  <div id="loginSuccessModal" class="modal-overlay" aria-hidden="true" role="dialog">
+    <div class="modal-content">
+      <div class="modal-icon-wrapper">
+        <div class="modal-success-check">
+          <span class="check-line line-tip"></span>
+          <span class="check-line line-long"></span>
+          <div class="check-circle"></div>
+          <div class="check-fix"></div>
+        </div>
+      </div>
+      <h2 class="modal-title">로그인 성공!</h2>
+      <p class="modal-message">영진전문대학교 학생 통합 서비스에 로그인 하였습니다.</p>
+      
+      <div class="summary-box">
+        <div class="summary-row" style="justify-content: center;">
+          <span class="summary-value" id="welcome-message" style="font-size: 1.1rem; color: var(--secondary-light);">yjutest123님, 환영합니다!</span>
+        </div>
+      </div>
+
+      <button type="button" id="modalCloseBtn" class="btn-modal-close">학사 포털로 이동</button>
+    </div>
+  </div>
+
+  <script src="login_script.js"></script>
+</body>
+</html>

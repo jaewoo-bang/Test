@@ -356,4 +356,20 @@ document.addEventListener('DOMContentLoaded', () => {
       closeModal();
     }
   });
+
+  // 임시 테스트용 데이터 자동 입력 및 유효성 검증
+  usernameInput.value = 'yjutest123';
+  passwordInput.value = 'Yjutest123!';
+  passwordConfirmInput.value = 'Yjutest123!';
+  emailInput.value = 'test@yju.ac.kr';
+  phoneInput.value = '010-1234-5678';
+  agreeTermsCheckbox.checked = true;
+
+  // 초기 유효성 검사 클래스 및 인디케이터 갱신
+  validateUsername();
+  validatePassword();
+  validatePasswordConfirm();
+  validateEmail();
+  validatePhone();
+  validateTerms();
 });

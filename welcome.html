@@ -10,6 +10,7 @@
   <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
   <!-- FontAwesome for Icons -->
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="data:,">
   <!-- CSS Stylesheet -->
   <link rel="stylesheet" href="style.css">
   <style>
@@ -201,7 +202,7 @@
 
       <!-- 액션 버튼 -->
       <div class="action-buttons">
-        <a href="index.html" class="btn-submit" style="text-decoration: none;">
+        <a href="login.html" id="loginPageLink" class="btn-submit" style="text-decoration: none;">
           <span>로그인 페이지로 이동</span>
           <i class="fa-solid fa-right-to-bracket btn-icon"></i>
         </a>
@@ -226,6 +227,12 @@
       document.getElementById('display-username').textContent = username;
       document.getElementById('display-email').textContent = email;
       document.getElementById('display-phone').textContent = phone;
+
+      // 로그인 링크 동적 변경 (가입된 아이디 정보 전달)
+      const loginPageLink = document.getElementById('loginPageLink');
+      if (loginPageLink && username !== '알 수 없음') {
+        loginPageLink.href = `login.html?username=${encodeURIComponent(username)}`;
+      }
 
       // 꽃가루(Confetti) 이펙트 동적 생성
       const container = document.body;
