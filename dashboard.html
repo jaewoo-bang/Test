@@ -14,30 +14,30 @@
   <!-- Common Style Sheet -->
   <link rel="stylesheet" href="style.css">
   <style>
-    /* 대시보드 커스텀 스타일 정의 */
+    /* 1. 대시보드 레이아웃 및 랩퍼 */
     .dashboard-wrapper {
       width: 100%;
       min-height: 100vh;
-      padding: 20px 0;
+      padding: 30px 20px;
       z-index: 1;
-      display: block;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       box-sizing: border-box;
     }
 
     .dashboard-container {
       width: 100%;
       max-width: 1200px;
-      margin: 0 auto;
-      padding: 30px 20px;
       animation: fadeInDashboard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
     }
 
     @keyframes fadeInDashboard {
-      from { opacity: 0; transform: translateY(20px); }
+      from { opacity: 0; transform: translateY(15px); }
       to { opacity: 1; transform: translateY(0); }
     }
 
-    /* 상단 네비게이션 헤더 */
+    /* 2. 상단 헤더 */
     .dashboard-header {
       display: flex;
       justify-content: space-between;
@@ -48,23 +48,23 @@
       border: 1px solid rgba(255, 255, 255, 0.08);
       border-radius: var(--radius-md);
       padding: 15px 30px;
-      margin-bottom: 30px;
+      margin-bottom: 24px;
     }
 
     .brand-section {
       display: flex;
       align-items: center;
-      gap: 15px;
+      gap: 12px;
     }
 
     .brand-section .logo-svg {
-      width: 45px;
-      height: 45px;
+      width: 40px;
+      height: 40px;
     }
 
     .brand-section .portal-title {
       font-family: var(--font-en);
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       font-weight: 800;
       letter-spacing: 1px;
       background: linear-gradient(135deg, #ffffff 0%, var(--text-muted) 100%);
@@ -72,99 +72,191 @@
       -webkit-text-fill-color: transparent;
     }
 
-    .user-section {
+    .header-time {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      font-family: var(--font-en);
+    }
+
+    /* 3. 3단 가로 배치 그리드 */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 1fr 2fr 1.2fr;
+      gap: 24px;
+      align-items: start;
+    }
+
+    @media (max-width: 1024px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr 1.5fr;
+      }
+      .sidebar-area {
+        grid-column: span 2;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+      .sidebar-area {
+        grid-column: span 1;
+      }
+    }
+
+    /* 4. [좌측] 학생 프로필 카드 */
+    .profile-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 30px 24px;
+      text-align: center;
       display: flex;
+      flex-direction: column;
       align-items: center;
       gap: 20px;
     }
 
-    .user-profile {
-      display: flex;
-      align-items: center;
-      gap: 12px;
+    .profile-avatar-wrapper {
+      position: relative;
     }
 
-    .user-avatar {
-      width: 38px;
-      height: 38px;
+    .profile-avatar {
+      width: 80px;
+      height: 80px;
       background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
       border-radius: 50%;
       display: flex;
       align-items: center;
       justify-content: center;
+      font-size: 2rem;
+      font-weight: 800;
       color: #ffffff;
+      border: 3px solid rgba(255, 255, 255, 0.15);
+      box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+    }
+
+    .profile-badge {
+      position: absolute;
+      bottom: 0;
+      right: 0;
+      background: var(--success);
+      color: #ffffff;
+      font-size: 0.7rem;
       font-weight: 700;
-      border: 2px solid rgba(255, 255, 255, 0.2);
+      padding: 3px 8px;
+      border-radius: 10px;
+      border: 2px solid #0f172a;
     }
 
-    .user-greeting {
-      font-size: 0.95rem;
-      color: var(--text-main);
+    .profile-info {
+      width: 100%;
     }
 
-    .user-greeting strong {
+    .profile-name {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+
+    .profile-name span {
       color: var(--secondary-light);
-      font-weight: 700;
+    }
+
+    .profile-department {
+      font-size: 0.85rem;
+      color: var(--text-muted);
+      margin-bottom: 15px;
+    }
+
+    .profile-details {
+      background: rgba(15, 23, 42, 0.5);
+      border-radius: var(--radius-sm);
+      padding: 15px;
+      text-align: left;
+      font-size: 0.82rem;
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      border: 1px solid rgba(255, 255, 255, 0.03);
+    }
+
+    .detail-row {
+      display: flex;
+      justify-content: space-between;
+    }
+
+    .detail-label {
+      color: var(--text-muted);
+    }
+
+    .detail-val {
+      color: var(--text-main);
+      font-weight: 500;
     }
 
     .btn-logout {
-      background: rgba(239, 68, 68, 0.1);
-      border: 1px solid rgba(239, 68, 68, 0.2);
+      width: 100%;
+      background: rgba(239, 68, 68, 0.08);
+      border: 1px solid rgba(239, 68, 68, 0.15);
       color: #fca5a5;
-      padding: 8px 16px;
+      padding: 12px;
       border-radius: var(--radius-sm);
-      font-size: 0.85rem;
+      font-size: 0.88rem;
       font-weight: 600;
       cursor: pointer;
       display: flex;
       align-items: center;
+      justify-content: center;
       gap: 8px;
       transition: var(--transition-fast);
+      text-decoration: none;
     }
 
     .btn-logout:hover {
-      background: rgba(239, 68, 68, 0.25);
-      border-color: rgba(239, 68, 68, 0.4);
+      background: rgba(239, 68, 68, 0.2);
+      border-color: rgba(239, 68, 68, 0.35);
       color: #ffffff;
-      transform: translateY(-1px);
+      transform: translateY(-2px);
     }
 
-    /* 메인 대시보드 레이아웃 */
-    .dashboard-grid {
-      display: grid;
-      grid-template-columns: 2fr 1fr;
-      gap: 30px;
+    /* 5. [중앙] 학사 서비스 영역 */
+    .services-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
     }
 
-    @media (max-width: 900px) {
-      .dashboard-grid {
-        grid-template-columns: 1fr;
-      }
-    }
-
-    /* 서비스 바로가기 영역 */
-    .services-section-title {
-      font-size: 1.2rem;
+    .services-title {
+      font-size: 1.15rem;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 20px;
       display: flex;
       align-items: center;
-      gap: 10px;
+      gap: 8px;
     }
 
-    .services-section-title i {
+    .services-title i {
       color: var(--secondary-light);
     }
 
     .services-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
-      gap: 20px;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 16px;
+    }
+
+    @media (max-width: 480px) {
+      .services-grid {
+        grid-template-columns: 1fr;
+      }
     }
 
     .service-card {
-      background: rgba(255, 255, 255, 0.03);
+      background: rgba(255, 255, 255, 0.02);
       backdrop-filter: blur(12px);
       -webkit-backdrop-filter: blur(12px);
       border: 1px solid var(--card-border);
@@ -173,7 +265,7 @@
       text-decoration: none;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 12px;
       transition: var(--transition-smooth);
       position: relative;
       overflow: hidden;
@@ -186,16 +278,16 @@
       left: 0;
       width: 100%;
       height: 100%;
-      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.06) 0%, rgba(6, 182, 212, 0.06) 100%);
       opacity: 0;
       transition: var(--transition-smooth);
       z-index: 0;
     }
 
     .service-card:hover {
-      transform: translateY(-5px);
-      border-color: rgba(6, 182, 212, 0.3);
-      box-shadow: 0 15px 30px -10px rgba(6, 182, 212, 0.15);
+      transform: translateY(-4px);
+      border-color: rgba(6, 182, 212, 0.25);
+      box-shadow: 0 12px 24px -10px rgba(6, 182, 212, 0.12);
     }
 
     .service-card:hover::before {
@@ -203,9 +295,9 @@
     }
 
     .service-icon-wrapper {
-      width: 48px;
-      height: 48px;
-      background: rgba(255, 255, 255, 0.05);
+      width: 44px;
+      height: 44px;
+      background: rgba(255, 255, 255, 0.04);
       border-radius: var(--radius-sm);
       display: flex;
       align-items: center;
@@ -219,7 +311,7 @@
     }
 
     .service-icon-wrapper i {
-      font-size: 1.4rem;
+      font-size: 1.3rem;
       background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
       -webkit-background-clip: text;
       -webkit-text-fill-color: transparent;
@@ -236,41 +328,47 @@
       z-index: 1;
     }
 
-    .service-title {
+    .service-card-title {
       font-size: 1.05rem;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 5px;
+      margin-bottom: 4px;
     }
 
     .service-desc {
-      font-size: 0.82rem;
+      font-size: 0.8rem;
       color: var(--text-muted);
       line-height: 1.4;
     }
 
-    /* 우측 사이드바: 공지사항 & 위젯 */
-    .sidebar-widget {
+    /* 6. [우측] 공지사항 위젯 */
+    .sidebar-area {
+      display: flex;
+      flex-direction: column;
+      gap: 16px;
+    }
+
+    .notice-card {
       background: rgba(255, 255, 255, 0.03);
       backdrop-filter: blur(16px);
       -webkit-backdrop-filter: blur(16px);
       border: 1px solid var(--card-border);
       border-radius: var(--radius-md);
-      padding: 25px;
-      margin-bottom: 25px;
+      padding: 24px;
+      min-height: 350px;
     }
 
-    .widget-title {
-      font-size: 1.1rem;
+    .notice-card-title {
+      font-size: 1.15rem;
       font-weight: 700;
       color: #ffffff;
-      margin-bottom: 20px;
+      margin-bottom: 18px;
       display: flex;
       align-items: center;
       justify-content: space-between;
     }
 
-    .widget-title i {
+    .notice-card-title i {
       color: var(--secondary-light);
     }
 
@@ -278,12 +376,12 @@
       list-style: none;
       display: flex;
       flex-direction: column;
-      gap: 15px;
+      gap: 16px;
     }
 
     .notice-item {
-      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
-      padding-bottom: 12px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      padding-bottom: 14px;
     }
 
     .notice-item:last-child {
@@ -302,7 +400,7 @@
       font-size: 0.88rem;
       color: var(--text-main);
       font-weight: 500;
-      line-height: 1.4;
+      line-height: 1.45;
       transition: var(--transition-fast);
     }
 
@@ -315,51 +413,6 @@
       justify-content: space-between;
       font-size: 0.75rem;
       color: var(--text-muted);
-    }
-
-    /* 웰컴 배너 */
-    .welcome-banner {
-      background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
-      border: 1px solid rgba(6, 182, 212, 0.2);
-      border-radius: var(--radius-md);
-      padding: 30px;
-      margin-bottom: 30px;
-      position: relative;
-      overflow: hidden;
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-    }
-
-    .welcome-text-group {
-      z-index: 1;
-    }
-
-    .welcome-banner-title {
-      font-size: 1.4rem;
-      font-weight: 800;
-      color: #ffffff;
-      margin-bottom: 8px;
-    }
-
-    .welcome-banner-title span {
-      color: var(--secondary-light);
-    }
-
-    .welcome-banner-desc {
-      font-size: 0.9rem;
-      color: #cbd5e1;
-      line-height: 1.5;
-    }
-
-    .welcome-banner-icon {
-      font-size: 4rem;
-      color: rgba(255, 255, 255, 0.08);
-      position: absolute;
-      right: 30px;
-      bottom: -10px;
-      transform: rotate(-15deg);
-      pointer-events: none;
     }
   </style>
 </head>
@@ -391,36 +444,50 @@
           </svg>
           <span class="portal-title">YEUNGJIN PORTAL</span>
         </div>
-        
-        <div class="user-section">
-          <div class="user-profile">
-            <div class="user-avatar" id="display-avatar">U</div>
-            <div class="user-greeting">
-              <span id="display-username-header"><strong>학생</strong>님</span>
-            </div>
-          </div>
-          <button type="button" id="logoutBtn" class="btn-logout">
-            <i class="fa-solid fa-right-from-bracket"></i>
-            <span>로그아웃</span>
-          </button>
-        </div>
+        <div class="header-time" id="live-time">2026.07.01</div>
       </header>
 
-      <!-- 웰컴 홍보 배너 -->
-      <section class="welcome-banner">
-        <div class="welcome-text-group">
-          <h2 class="welcome-banner-title">안녕하세요, <span id="display-username-banner">학생</span>님!</h2>
-          <p class="welcome-banner-desc">영진전문대학교의 스마트 학사 포털에 로그인하셨습니다.<br>수강 신청 안내 및 학사 일정을 우측 공지사항에서 확인하실 수 있습니다.</p>
-        </div>
-        <i class="fa-solid fa-graduation-cap welcome-banner-icon"></i>
-      </section>
-
-      <!-- 서비스 및 공지 레이아웃 -->
+      <!-- 3단 가로형 그리드 배치의 대시보드 -->
       <div class="dashboard-grid">
         
-        <!-- 서비스 그리드 (좌) -->
-        <section class="services-area">
-          <h3 class="services-section-title">
+        <!-- [좌측] 프로필 카드 -->
+        <aside class="profile-area">
+          <div class="profile-card">
+            <div class="profile-avatar-wrapper">
+              <div class="profile-avatar" id="display-avatar">U</div>
+              <span class="profile-badge">재학</span>
+            </div>
+            
+            <div class="profile-info">
+              <h2 class="profile-name"><span id="display-username-profile">학생</span>님</h2>
+              <p class="profile-department">컴퓨터정보계열 (컴퓨터정보전공)</p>
+              
+              <div class="profile-details">
+                <div class="detail-row">
+                  <span class="detail-label">학번</span>
+                  <span class="detail-val">20260408</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">학년/반</span>
+                  <span class="detail-val">1학년 A반</span>
+                </div>
+                <div class="detail-row">
+                  <span class="detail-label">이메일</span>
+                  <span class="detail-val" id="display-email-profile">yju@yju.ac.kr</span>
+                </div>
+              </div>
+            </div>
+
+            <button type="button" id="logoutBtn" class="btn-logout">
+              <i class="fa-solid fa-right-from-bracket"></i>
+              <span>로그아웃</span>
+            </button>
+          </div>
+        </aside>
+
+        <!-- [중앙] 학사 서비스 -->
+        <main class="services-area">
+          <h3 class="services-title">
             <i class="fa-solid fa-cubes"></i>
             <span>주요 학사 서비스</span>
           </h3>
@@ -432,19 +499,19 @@
                 <i class="fa-regular fa-calendar-check"></i>
               </div>
               <div class="service-info">
-                <h4 class="service-title">수강신청</h4>
-                <p class="service-desc">수강 계획서 조회, 희망 과목 담기 및 수강신청을 진행합니다.</p>
+                <h4 class="service-card-title">수강신청</h4>
+                <p class="service-desc">수강 계획서 조회, 희망 과목 담기 및 본 수강신청을 진행합니다.</p>
               </div>
             </a>
 
-            <!-- 성적 조회 -->
-            <a href="#" class="service-card" onclick="alert('성적조회 서비스 준비 중입니다.'); return false;">
+            <!-- 성적/출결 조회 -->
+            <a href="#" class="service-card" onclick="alert('성적 및 출결 조회 서비스 준비 중입니다.'); return false;">
               <div class="service-icon-wrapper">
                 <i class="fa-solid fa-chart-line"></i>
               </div>
               <div class="service-info">
-                <h4 class="service-title">성적/출결 조회</h4>
-                <p class="service-desc">이번 학기 취득 성적 및 상세 출결 내역을 조회합니다.</p>
+                <h4 class="service-card-title">성적/출결 조회</h4>
+                <p class="service-desc">이번 학기 취득 성적 및 상세 전자출결 내역을 조회합니다.</p>
               </div>
             </a>
 
@@ -454,35 +521,36 @@
                 <i class="fa-regular fa-id-card"></i>
               </div>
               <div class="service-info">
-                <h4 class="service-title">모바일 학생증</h4>
-                <p class="service-desc">도서관 및 건물 출입을 위한 전자 모바일 학생증을 발급합니다.</p>
+                <h4 class="service-card-title">모바일 학생증</h4>
+                <p class="service-desc">도서관 및 교내 건물 출입을 위한 모바일 신분증을 발급합니다.</p>
               </div>
             </a>
 
             <!-- 등록/장학 -->
-            <a href="#" class="service-card" onclick="alert('장학금 및 등록금 조회 서비스 준비 중입니다.'); return false;">
+            <a href="#" class="service-card" onclick="alert('등록금 및 장학금 서비스 준비 중입니다.'); return false;">
               <div class="service-icon-wrapper">
                 <i class="fa-solid fa-coins"></i>
               </div>
               <div class="service-info">
-                <h4 class="service-title">등록/장학금</h4>
-                <p class="service-desc">장학금 신청 현황 및 등록금 고지서, 영수증을 확인합니다.</p>
+                <h4 class="service-card-title">등록/장학금</h4>
+                <p class="service-desc">장학금 수혜 내역 신청 현황 및 등록금 납부 영수증을 출력합니다.</p>
               </div>
             </a>
           </div>
-        </section>
+        </main>
 
-        <!-- 공지사항 및 학사캘린더 (우) -->
+        <!-- [우측] 공지사항 -->
         <aside class="sidebar-area">
-          <div class="sidebar-widget">
-            <h3 class="widget-title">
+          <div class="notice-card">
+            <h3 class="notice-card-title">
               <span>학사 공지사항</span>
               <i class="fa-solid fa-bullhorn"></i>
             </h3>
+            
             <ul class="notice-list">
               <li class="notice-item">
                 <a href="#" class="notice-link" onclick="alert('공지 상세내용 준비 중입니다.'); return false;">
-                  <span class="notice-headline">2026학년도 2학기 예비 수강신청 일정 안내</span>
+                  <span class="notice-headline">2026학년도 2학기 예비 수강신청 일정 및 신청 방식 안내</span>
                   <div class="notice-meta">
                     <span>학사지원처</span>
                     <span>2026.07.01</span>
@@ -500,7 +568,7 @@
               </li>
               <li class="notice-item">
                 <a href="#" class="notice-link" onclick="alert('공지 상세내용 준비 중입니다.'); return false;">
-                  <span class="notice-headline">하계방학 중 대학 도서관 리모델링에 따른 휴관 및 단축 운영 안내</span>
+                  <span class="notice-headline">하계방학 중 대학 도서관 리모델링 단축 운영 안내</span>
                   <div class="notice-meta">
                     <span>학술정보관</span>
                     <span>2026.06.24</span>
@@ -522,9 +590,8 @@
       const urlParams = new URLSearchParams(window.location.search);
       const username = urlParams.get('username') || '학생';
 
-      // 텍스트 바인딩
-      document.getElementById('display-username-header').innerHTML = `<strong>${username}</strong>님`;
-      document.getElementById('display-username-banner').textContent = username;
+      // 프로필 데이터 바인딩
+      document.getElementById('display-username-profile').textContent = username;
 
       // 아바타 첫 글자 추출 적용
       const avatarEl = document.getElementById('display-avatar');
@@ -532,12 +599,18 @@
         avatarEl.textContent = username.substring(0, 1).toUpperCase();
       }
 
+      // 웰컴 타임 현재 시간 업데이트
+      const timeEl = document.getElementById('live-time');
+      const today = new Date();
+      const year = today.getFullYear();
+      const month = String(today.getMonth() + 1).padStart(2, '0');
+      const date = String(today.getDate()).padStart(2, '0');
+      timeEl.textContent = `${year}.${month}.${date}`;
+
       // 로그아웃 버튼 기능 구현
       const logoutBtn = document.getElementById('logoutBtn');
       logoutBtn.addEventListener('click', () => {
         if (confirm('로그아웃 하시겠습니까?')) {
-          // 세션 및 상태 청소 (필요한 경우)
-          // 로그인 페이지로 돌아가며 웰컴 파라미터 전달 (선택사항)
           window.location.href = 'login.html';
         }
       });
