@@ -1,0 +1,538 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>영진전문대학교 - 스마트 통합 포털</title>
+  <!-- Google Fonts -->
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;700;900&family=Outfit:wght@300;400;600;800&display=swap" rel="stylesheet">
+  <!-- FontAwesome for Premium Icons -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link rel="icon" href="data:,">
+  <!-- Common Style Sheet -->
+  <link rel="stylesheet" href="style.css">
+  <style>
+    /* 대시보드 커스텀 스타일 정의 */
+    .dashboard-container {
+      width: 100%;
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 30px 20px;
+      animation: fadeInDashboard 0.8s cubic-bezier(0.16, 1, 0.3, 1) forwards;
+    }
+
+    @keyframes fadeInDashboard {
+      from { opacity: 0; transform: translateY(20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* 상단 네비게이션 헤더 */
+    .dashboard-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      background: rgba(255, 255, 255, 0.04);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: var(--radius-md);
+      padding: 15px 30px;
+      margin-bottom: 30px;
+    }
+
+    .brand-section {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .brand-section .logo-svg {
+      width: 45px;
+      height: 45px;
+    }
+
+    .brand-section .portal-title {
+      font-family: var(--font-en);
+      font-size: 1.4rem;
+      font-weight: 800;
+      letter-spacing: 1px;
+      background: linear-gradient(135deg, #ffffff 0%, var(--text-muted) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+    }
+
+    .user-section {
+      display: flex;
+      align-items: center;
+      gap: 20px;
+    }
+
+    .user-profile {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .user-avatar {
+      width: 38px;
+      height: 38px;
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #ffffff;
+      font-weight: 700;
+      border: 2px solid rgba(255, 255, 255, 0.2);
+    }
+
+    .user-greeting {
+      font-size: 0.95rem;
+      color: var(--text-main);
+    }
+
+    .user-greeting strong {
+      color: var(--secondary-light);
+      font-weight: 700;
+    }
+
+    .btn-logout {
+      background: rgba(239, 68, 68, 0.1);
+      border: 1px solid rgba(239, 68, 68, 0.2);
+      color: #fca5a5;
+      padding: 8px 16px;
+      border-radius: var(--radius-sm);
+      font-size: 0.85rem;
+      font-weight: 600;
+      cursor: pointer;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      transition: var(--transition-fast);
+    }
+
+    .btn-logout:hover {
+      background: rgba(239, 68, 68, 0.25);
+      border-color: rgba(239, 68, 68, 0.4);
+      color: #ffffff;
+      transform: translateY(-1px);
+    }
+
+    /* 메인 대시보드 레이아웃 */
+    .dashboard-grid {
+      display: grid;
+      grid-template-columns: 2fr 1fr;
+      gap: 30px;
+    }
+
+    @media (max-width: 900px) {
+      .dashboard-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* 서비스 바로가기 영역 */
+    .services-section-title {
+      font-size: 1.2rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .services-section-title i {
+      color: var(--secondary-light);
+    }
+
+    .services-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 20px;
+    }
+
+    .service-card {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(12px);
+      -webkit-backdrop-filter: blur(12px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 24px;
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+      transition: var(--transition-smooth);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .service-card::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(135deg, rgba(99, 102, 241, 0.08) 0%, rgba(6, 182, 212, 0.08) 100%);
+      opacity: 0;
+      transition: var(--transition-smooth);
+      z-index: 0;
+    }
+
+    .service-card:hover {
+      transform: translateY(-5px);
+      border-color: rgba(6, 182, 212, 0.3);
+      box-shadow: 0 15px 30px -10px rgba(6, 182, 212, 0.15);
+    }
+
+    .service-card:hover::before {
+      opacity: 1;
+    }
+
+    .service-icon-wrapper {
+      width: 48px;
+      height: 48px;
+      background: rgba(255, 255, 255, 0.05);
+      border-radius: var(--radius-sm);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      z-index: 1;
+      transition: var(--transition-smooth);
+    }
+
+    .service-card:hover .service-icon-wrapper {
+      background: linear-gradient(135deg, var(--primary) 0%, var(--secondary) 100%);
+    }
+
+    .service-icon-wrapper i {
+      font-size: 1.4rem;
+      background: linear-gradient(135deg, var(--primary-light) 0%, var(--secondary-light) 100%);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      transition: var(--transition-smooth);
+    }
+
+    .service-card:hover .service-icon-wrapper i {
+      background: none;
+      -webkit-background-clip: initial;
+      -webkit-text-fill-color: #ffffff;
+    }
+
+    .service-info {
+      z-index: 1;
+    }
+
+    .service-title {
+      font-size: 1.05rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 5px;
+    }
+
+    .service-desc {
+      font-size: 0.82rem;
+      color: var(--text-muted);
+      line-height: 1.4;
+    }
+
+    /* 우측 사이드바: 공지사항 & 위젯 */
+    .sidebar-widget {
+      background: rgba(255, 255, 255, 0.03);
+      backdrop-filter: blur(16px);
+      -webkit-backdrop-filter: blur(16px);
+      border: 1px solid var(--card-border);
+      border-radius: var(--radius-md);
+      padding: 25px;
+      margin-bottom: 25px;
+    }
+
+    .widget-title {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: #ffffff;
+      margin-bottom: 20px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .widget-title i {
+      color: var(--secondary-light);
+    }
+
+    .notice-list {
+      list-style: none;
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    .notice-item {
+      border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+      padding-bottom: 12px;
+    }
+
+    .notice-item:last-child {
+      border-bottom: none;
+      padding-bottom: 0;
+    }
+
+    .notice-link {
+      text-decoration: none;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+    }
+
+    .notice-headline {
+      font-size: 0.88rem;
+      color: var(--text-main);
+      font-weight: 500;
+      line-height: 1.4;
+      transition: var(--transition-fast);
+    }
+
+    .notice-link:hover .notice-headline {
+      color: var(--secondary-light);
+    }
+
+    .notice-meta {
+      display: flex;
+      justify-content: space-between;
+      font-size: 0.75rem;
+      color: var(--text-muted);
+    }
+
+    /* 웰컴 배너 */
+    .welcome-banner {
+      background: linear-gradient(135deg, rgba(79, 70, 229, 0.15) 0%, rgba(6, 182, 212, 0.15) 100%);
+      border: 1px solid rgba(6, 182, 212, 0.2);
+      border-radius: var(--radius-md);
+      padding: 30px;
+      margin-bottom: 30px;
+      position: relative;
+      overflow: hidden;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+    }
+
+    .welcome-text-group {
+      z-index: 1;
+    }
+
+    .welcome-banner-title {
+      font-size: 1.4rem;
+      font-weight: 800;
+      color: #ffffff;
+      margin-bottom: 8px;
+    }
+
+    .welcome-banner-title span {
+      color: var(--secondary-light);
+    }
+
+    .welcome-banner-desc {
+      font-size: 0.9rem;
+      color: #cbd5e1;
+      line-height: 1.5;
+    }
+
+    .welcome-banner-icon {
+      font-size: 4rem;
+      color: rgba(255, 255, 255, 0.08);
+      position: absolute;
+      right: 30px;
+      bottom: -10px;
+      transform: rotate(-15deg);
+      pointer-events: none;
+    }
+  </style>
+</head>
+<body>
+
+  <!-- 배경 애니메이션 요소 -->
+  <div class="background-decorations">
+    <div class="bubble bubble-1"></div>
+    <div class="bubble bubble-2"></div>
+    <div class="bubble bubble-3"></div>
+  </div>
+
+  <div class="container" style="min-height: 100vh; padding: 20px 0; display: block;">
+    <div class="dashboard-container">
+      
+      <!-- 포탈 네비게이션 헤더 -->
+      <header class="dashboard-header">
+        <div class="brand-section">
+          <svg viewBox="0 0 100 100" class="logo-svg" aria-hidden="true">
+            <defs>
+              <linearGradient id="logoGrad" x1="0%" y1="0%" x2="100%" y2="100%">
+                <stop offset="0%" stop-color="#4F46E5" />
+                <stop offset="100%" stop-color="#06B6D4" />
+              </linearGradient>
+            </defs>
+            <circle cx="50" cy="50" r="45" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-dasharray="200 40" />
+            <path d="M30 35 L50 65 L70 35" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" stroke-linejoin="round" />
+            <path d="M50 20 L50 50" fill="none" stroke="url(#logoGrad)" stroke-width="8" stroke-linecap="round" />
+          </svg>
+          <span class="portal-title">YEUNGJIN PORTAL</span>
+        </div>
+        
+        <div class="user-section">
+          <div class="user-profile">
+            <div class="user-avatar" id="display-avatar">U</div>
+            <div class="user-greeting">
+              <span id="display-username-header"><strong>학생</strong>님</span>
+            </div>
+          </div>
+          <button type="button" id="logoutBtn" class="btn-logout">
+            <i class="fa-solid fa-right-from-bracket"></i>
+            <span>로그아웃</span>
+          </button>
+        </div>
+      </header>
+
+      <!-- 웰컴 홍보 배너 -->
+      <section class="welcome-banner">
+        <div class="welcome-text-group">
+          <h2 class="welcome-banner-title">안녕하세요, <span id="display-username-banner">학생</span>님!</h2>
+          <p class="welcome-banner-desc">영진전문대학교의 스마트 학사 포털에 로그인하셨습니다.<br>수강 신청 안내 및 학사 일정을 우측 공지사항에서 확인하실 수 있습니다.</p>
+        </div>
+        <i class="fa-solid fa-graduation-cap welcome-banner-icon"></i>
+      </section>
+
+      <!-- 서비스 및 공지 레이아웃 -->
+      <div class="dashboard-grid">
+        
+        <!-- 서비스 그리드 (좌) -->
+        <section class="services-area">
+          <h3 class="services-section-title">
+            <i class="fa-solid fa-cubes"></i>
+            <span>주요 학사 서비스</span>
+          </h3>
+          
+          <div class="services-grid">
+            <!-- 수강신청 -->
+            <a href="#" class="service-card" onclick="alert('수강신청 서비스 준비 중입니다.'); return false;">
+              <div class="service-icon-wrapper">
+                <i class="fa-regular fa-calendar-check"></i>
+              </div>
+              <div class="service-info">
+                <h4 class="service-title">수강신청</h4>
+                <p class="service-desc">수강 계획서 조회, 희망 과목 담기 및 수강신청을 진행합니다.</p>
+              </div>
+            </a>
+
+            <!-- 성적 조회 -->
+            <a href="#" class="service-card" onclick="alert('성적조회 서비스 준비 중입니다.'); return false;">
+              <div class="service-icon-wrapper">
+                <i class="fa-solid fa-chart-line"></i>
+              </div>
+              <div class="service-info">
+                <h4 class="service-title">성적/출결 조회</h4>
+                <p class="service-desc">이번 학기 취득 성적 및 상세 출결 내역을 조회합니다.</p>
+              </div>
+            </a>
+
+            <!-- 모바일 학생증 -->
+            <a href="#" class="service-card" onclick="alert('모바일 학생증 발급 준비 중입니다.'); return false;">
+              <div class="service-icon-wrapper">
+                <i class="fa-regular fa-id-card"></i>
+              </div>
+              <div class="service-info">
+                <h4 class="service-title">모바일 학생증</h4>
+                <p class="service-desc">도서관 및 건물 출입을 위한 전자 모바일 학생증을 발급합니다.</p>
+              </div>
+            </a>
+
+            <!-- 등록/장학 -->
+            <a href="#" class="service-card" onclick="alert('장학금 및 등록금 조회 서비스 준비 중입니다.'); return false;">
+              <div class="service-icon-wrapper">
+                <i class="fa-solid fa-coins"></i>
+              </div>
+              <div class="service-info">
+                <h4 class="service-title">등록/장학금</h4>
+                <p class="service-desc">장학금 신청 현황 및 등록금 고지서, 영수증을 확인합니다.</p>
+              </div>
+            </a>
+          </div>
+        </section>
+
+        <!-- 공지사항 및 학사캘린더 (우) -->
+        <aside class="sidebar-area">
+          <div class="sidebar-widget">
+            <h3 class="widget-title">
+              <span>학사 공지사항</span>
+              <i class="fa-solid fa-bullhorn"></i>
+            </h3>
+            <ul class="notice-list">
+              <li class="notice-item">
+                <a href="#" class="notice-link" onclick="alert('공지 상세내용 준비 중입니다.'); return false;">
+                  <span class="notice-headline">2026학년도 2학기 예비 수강신청 일정 안내</span>
+                  <div class="notice-meta">
+                    <span>학사지원처</span>
+                    <span>2026.07.01</span>
+                  </div>
+                </a>
+              </li>
+              <li class="notice-item">
+                <a href="#" class="notice-link" onclick="alert('공지 상세내용 준비 중입니다.'); return false;">
+                  <span class="notice-headline">영진전문대학교 학생 맞춤 장학 혜택 추가 선발 공고</span>
+                  <div class="notice-meta">
+                    <span>학생복지팀</span>
+                    <span>2026.06.28</span>
+                  </div>
+                </a>
+              </li>
+              <li class="notice-item">
+                <a href="#" class="notice-link" onclick="alert('공지 상세내용 준비 중입니다.'); return false;">
+                  <span class="notice-headline">하계방학 중 대학 도서관 리모델링에 따른 휴관 및 단축 운영 안내</span>
+                  <div class="notice-meta">
+                    <span>학술정보관</span>
+                    <span>2026.06.24</span>
+                  </div>
+                </a>
+              </li>
+            </ul>
+          </div>
+        </aside>
+
+      </div>
+
+    </div>
+  </div>
+
+  <script>
+    document.addEventListener('DOMContentLoaded', () => {
+      // URL 파라미터에서 아이디 파싱
+      const urlParams = new URLSearchParams(window.location.search);
+      const username = urlParams.get('username') || '학생';
+
+      // 텍스트 바인딩
+      document.getElementById('display-username-header').innerHTML = `<strong>${username}</strong>님`;
+      document.getElementById('display-username-banner').textContent = username;
+
+      // 아바타 첫 글자 추출 적용
+      const avatarEl = document.getElementById('display-avatar');
+      if (username && username !== '학생') {
+        avatarEl.textContent = username.substring(0, 1).toUpperCase();
+      }
+
+      // 로그아웃 버튼 기능 구현
+      const logoutBtn = document.getElementById('logoutBtn');
+      logoutBtn.addEventListener('click', () => {
+        if (confirm('로그아웃 하시겠습니까?')) {
+          // 세션 및 상태 청소 (필요한 경우)
+          // 로그인 페이지로 돌아가며 웰컴 파라미터 전달 (선택사항)
+          window.location.href = 'login.html';
+        }
+      });
+    });
+  </script>
+</body>
+</html>

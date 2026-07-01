@@ -105,21 +105,8 @@ document.addEventListener('DOMContentLoaded', () => {
   const signupUsername = urlParams.get('username');
   if (signupUsername) {
     usernameInput.value = signupUsername;
-    // 회원가입 성공 후 가입 정보 유지를 보여주기 위해 비밀번호 자동 입력
-    passwordInput.value = 'Yjutest123!';
-    
     touchedFields.username = true;
-    touchedFields.password = true;
     validateUsername();
-    validatePassword();
-  } else {
-    // 일반 접근 시 테스트 편의를 위해 임시 기본값 prefill
-    usernameInput.value = 'yjutest123';
-    passwordInput.value = 'Yjutest123!';
-    touchedFields.username = true;
-    touchedFields.password = true;
-    validateUsername();
-    validatePassword();
   }
 
   /* ==========================================================================
@@ -193,8 +180,9 @@ document.addEventListener('DOMContentLoaded', () => {
   function closeModal() {
     modal.classList.remove('active');
     modal.setAttribute('aria-hidden', 'true');
-    // 실제 사이트로 리다이렉트 예시
-    window.location.href = 'https://www.yju.ac.kr';
+    // 대시보드 페이지로 이동하며 로그인한 username을 쿼리 스트링으로 전달
+    const username = usernameInput.value.trim();
+    window.location.href = `dashboard.html?username=${encodeURIComponent(username)}`;
   }
 
   modalCloseBtn.addEventListener('click', closeModal);
