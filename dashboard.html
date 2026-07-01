@@ -15,6 +15,15 @@
   <link rel="stylesheet" href="style.css">
   <style>
     /* 대시보드 커스텀 스타일 정의 */
+    .dashboard-wrapper {
+      width: 100%;
+      min-height: 100vh;
+      padding: 20px 0;
+      z-index: 1;
+      display: block;
+      box-sizing: border-box;
+    }
+
     .dashboard-container {
       width: 100%;
       max-width: 1200px;
@@ -363,7 +372,7 @@
     <div class="bubble bubble-3"></div>
   </div>
 
-  <div class="container" style="min-height: 100vh; padding: 20px 0; display: block;">
+  <div class="dashboard-wrapper">
     <div class="dashboard-container">
       
       <!-- 포탈 네비게이션 헤더 -->
