@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Supabase 클라이언트 설정
+  const supabaseUrl = 'https://yavgvmkllkipdobrpqfg.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlhdmd2bWtsbGtpcGRvYnJwcWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NDcyODYsImV4cCI6MjA5ODQyMzI4Nn0.BGeCdEFD6gqbJBjo87qJyAzHNNg5D0pxYOpt1-uhCrI';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
   const form = document.getElementById('signupForm');
   const modal = document.getElementById('successModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
@@ -310,20 +315,60 @@ document.addEventListener('DOMContentLoaded', () => {
     if (isFormValid) {
       // 폼 데이터 수집
       const username = usernameInput.value.trim();
+      const password = passwordInput.value;
       const email = emailInput.value.trim();
       const phone = phoneInput.value.trim();
 
-      // 모달 데이터 세팅
-      document.getElementById('summary-username').textContent = username;
-      document.getElementById('summary-email').textContent = email;
-      document.getElementById('summary-phone').textContent = phone;
+      // Supabase 연동 처리
+      (async () => {
+        const submitBtn = document.getElementById('submitBtn');
+        const btnText = submitBtn.querySelector('.btn-text');
+        const originalText = btnText.textContent;
+        btnText.textContent = '처리 중...';
+        submitBtn.disabled = true;
 
-      // 성공 모달 열기
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-      
-      // 모달 외부 포커스 방지를 위해 닫기 버튼에 포커스
-      modalCloseBtn.focus();
+        try {
+          const { data, error } = await supabase
+            .from('users')
+            .insert([
+              { username, password, email, phone }
+            ])
+            .select();
+
+          if (error) {
+            console.error('Supabase signup error:', error);
+            // Unique Key 제약조건 위반 시 처리
+            if (error.message.includes('uq_users_username') || (error.details && error.details.includes('username')) || error.message.includes('users_username_key')) {
+              showError(usernameInput, '이미 사용 중인 아이디입니다.');
+              triggerShake(usernameInput);
+            } else if (error.message.includes('uq_users_email') || (error.details && error.details.includes('email')) || error.message.includes('users_email_key')) {
+              showError(emailInput, '이미 등록된 이메일 주소입니다.');
+              triggerShake(emailInput);
+            } else {
+              alert('회원가입 처리 중 오류가 발생했습니다: ' + error.message);
+            }
+            return;
+          }
+
+          // 모달 데이터 세팅
+          document.getElementById('summary-username').textContent = username;
+          document.getElementById('summary-email').textContent = email;
+          document.getElementById('summary-phone').textContent = phone;
+
+          // 성공 모달 열기
+          modal.classList.add('active');
+          modal.setAttribute('aria-hidden', 'false');
+          
+          // 모달 외부 포커스 방지를 위해 닫기 버튼에 포커스
+          modalCloseBtn.focus();
+        } catch (err) {
+          console.error(err);
+          alert('네트워크 오류가 발생했습니다.');
+        } finally {
+          btnText.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      })();
     } else {
       // 유효성 검사에 실패한 첫 번째 요소에 진동 효과를 주어 사용자 주의 환기
       if (!isUsernameValid) triggerShake(usernameInput);

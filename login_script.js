@@ -1,4 +1,9 @@
 document.addEventListener('DOMContentLoaded', () => {
+  // Supabase 클라이언트 설정
+  const supabaseUrl = 'https://yavgvmkllkipdobrpqfg.supabase.co';
+  const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Inlhdmd2bWtsbGtpcGRvYnJwcWZnIiwicm9sZSI6ImFub24iLCJpYXQiOjE3ODI4NDcyODYsImV4cCI6MjA5ODQyMzI4Nn0.BGeCdEFD6gqbJBjo87qJyAzHNNg5D0pxYOpt1-uhCrI';
+  const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+
   const form = document.getElementById('loginForm');
   const modal = document.getElementById('loginSuccessModal');
   const modalCloseBtn = document.getElementById('modalCloseBtn');
@@ -131,11 +136,53 @@ document.addEventListener('DOMContentLoaded', () => {
 
     if (isUsernameValid && isPasswordValid) {
       const username = usernameInput.value.trim();
-      welcomeMessage.textContent = `${username}님, 환영합니다!`;
-      
-      modal.classList.add('active');
-      modal.setAttribute('aria-hidden', 'false');
-      modalCloseBtn.focus();
+      const password = passwordInput.value;
+
+      // Supabase 로그인 검증
+      (async () => {
+        const submitBtn = form.querySelector('button[type="submit"]');
+        const btnText = submitBtn.querySelector('.btn-text') || submitBtn;
+        const originalText = btnText.textContent;
+        if (btnText.textContent) btnText.textContent = '로그인 중...';
+        submitBtn.disabled = true;
+
+        try {
+          const { data, error } = await supabase
+            .from('users')
+            .select('*')
+            .eq('username', username)
+            .eq('password', password)
+            .maybeSingle();
+
+          if (error) {
+            console.error('Supabase login error:', error);
+            alert('로그인 처리 중 오류가 발생했습니다: ' + error.message);
+            return;
+          }
+
+          if (!data) {
+            // 로그인 실패
+            showError(usernameInput, '아이디 또는 비밀번호가 일치하지 않습니다.');
+            showError(passwordInput, '아이디 또는 비밀번호가 일치하지 않습니다.');
+            triggerShake(usernameInput);
+            triggerShake(passwordInput);
+            return;
+          }
+
+          // 로그인 성공
+          welcomeMessage.textContent = `${data.username}님, 환영합니다!`;
+          
+          modal.classList.add('active');
+          modal.setAttribute('aria-hidden', 'false');
+          modalCloseBtn.focus();
+        } catch (err) {
+          console.error(err);
+          alert('네트워크 오류가 발생했습니다.');
+        } finally {
+          if (btnText.textContent) btnText.textContent = originalText;
+          submitBtn.disabled = false;
+        }
+      })();
     } else {
       if (!isUsernameValid) triggerShake(usernameInput);
       else if (!isPasswordValid) triggerShake(passwordInput);
